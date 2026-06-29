@@ -33,33 +33,166 @@
   </header>
 
   <main>
-    <!-- ============ MODULAR 1 — MASTHEAD ============ -->
-    <section class="masthead" id="top">
-      <div class="mh-glow"></div>
-      <div class="euro-symbol" aria-hidden="true">€</div>
+    <!-- ============ MODULAR 1 — MASTHEAD (LIVE MARKET) ============ -->
+    <div class="hero-scroll" id="heroScroll">
+      <section class="masthead state-intro" id="top">
+        <!-- planet / ambient glow behind everything -->
+        <div class="hero-glow" aria-hidden="true"></div>
 
-      <div class="mh-content">
-        <h1 class="mh-title reveal">Built on 100&nbsp;Years<br>of Financial<br>Excellence</h1>
-        <a href="#pricing" class="btn btn-glass-green reveal">Open Account / Try A Demo</a>
-      </div>
+        <!-- FULL-BLEED LIVE CHART (close-up -> full states) -->
+        <div class="hero-chart" id="heroChart">
+          <div class="hero-chart-cam" id="heroCam">
+            <canvas id="bgChart"></canvas>
+          </div>
+          <div class="hero-chart-fade" aria-hidden="true"></div>
+        </div>
 
-      <div class="mh-phone reveal" data-parallax="0.12">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-logo">F<span>O</span>REX<small>.com</small></div>
-            <div class="phone-sub">by StoneX</div>
+        <!-- LIVE TICKER OVERLAY -->
+        <div class="market-overlay" id="marketOverlay">
+          <span class="live-pill"><span class="live-dot"></span>LIVE&nbsp;·&nbsp;Most Trending</span>
+          <div class="ticker-head">
+            <span class="tk-symbol" id="tkSymbol">NVDA</span>
+            <span class="tk-name" id="tkName">NVIDIA Corporation · NASDAQ</span>
+          </div>
+          <div class="ticker-price">
+            <span class="tk-price" id="tkPrice">$0.00</span>
+            <span class="tk-change up" id="tkChange">+0.00 (0.00%)</span>
+          </div>
+          <p class="market-desc" id="marketDesc">
+            NVIDIA powers the global AI compute boom — its GPUs run the world's data centres,
+            making it one of the most actively traded names on Wall Street right now.
+          </p>
+          <!-- last 3 up/down volatility ticks -->
+          <div class="vol-ticks" id="volTicks" aria-label="Recent moves">
+            <span class="vt-label">Last moves</span>
+            <span class="vt-dot"></span><span class="vt-dot"></span><span class="vt-dot"></span>
+          </div>
+          <a href="#pricing" class="btn btn-glass-green mo-cta">Open Account / Try A Demo</a>
+        </div>
+
+        <!-- PHONE-IN-HAND (revealed on scroll) -->
+        <div class="hand-rig" id="handRig" aria-hidden="true">
+          <div class="euro-bg" aria-hidden="true">€</div>
+          <div class="handshot">
+            <img class="handshot-img" src="assets/hand-phone.png" alt="Hand holding a phone showing the live NVDA chart" />
+            <div class="handshot-screen">
+              <canvas id="phoneChart"></canvas>
+              <div class="device-ticker">
+                <span id="phSymbol">NVDA</span>
+                <span class="ph-price" id="phPrice">$0.00</span>
+                <span class="ph-change up" id="phChange">+0.00%</span>
+              </div>
+
+              <!-- in-phone conversion panel -->
+              <div class="device-cta">
+                <span class="device-nudge" id="deviceNudge">Practice risk-free with $10,000 virtual funds</span>
+                <div class="device-btns">
+                  <a href="#pricing" class="dv-btn dv-primary">Open Account</a>
+                  <a href="#pricing" class="dv-btn dv-ghost">Try a Demo</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="phone-hand" aria-hidden="true"></div>
-      </div>
 
-      <p class="mh-tagline reveal">
-        Discover the complete CFD experience with award-winning platforms,<sup>1</sup>
-        competitive spreads, low commissions, fast execution and dedicated support.
-        See why we're the choice of over one million traders worldwide.<sup>*</sup>
-      </p>
-    </section>
+        <!-- AWARD RAIL — glass squares in a semi-circle around the bottom of the hand (revealed on 2nd scroll) -->
+        <div class="award-rail" id="awardRail" aria-label="Awards and ratings">
+          <!-- Trustpilot · Excellent -->
+          <figure class="award-card" style="--ax:20%; --ay:46%; --d:.5s">
+            <span class="aw-inner" style="--fd:0s">
+              <span class="aw-visual aw-trust">
+                <span class="aw-tile">
+                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
+                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
+                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
+                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
+                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
+                </span>
+              </span>
+              <span class="aw-name">Trustpilot</span>
+              <span class="aw-meta">Excellent</span>
+            </span>
+          </figure>
+
+          <!-- Overall Excellence 2025 -->
+          <figure class="award-card" style="--ax:26%; --ay:64%; --d:.4s">
+            <span class="aw-inner" style="--fd:.9s">
+              <span class="aw-visual aw-gold">
+                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
+                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></span>
+              </span>
+              <span class="aw-name">Overall Excellence</span>
+              <span class="aw-meta">2025</span>
+            </span>
+          </figure>
+
+          <!-- Rated 4.9 / 5 -->
+          <figure class="award-card" style="--ax:41%; --ay:75%; --d:.3s">
+            <span class="aw-inner" style="--fd:1.8s">
+              <span class="aw-visual">
+                <span class="aw-stars gold">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+                </span>
+              </span>
+              <span class="aw-big">4.9/5</span>
+              <span class="aw-meta">4,900+ reviews</span>
+            </span>
+          </figure>
+
+          <!-- Best in Class Trading Platform -->
+          <figure class="award-card" style="--ax:59%; --ay:75%; --d:.2s">
+            <span class="aw-inner" style="--fd:2.7s">
+              <span class="aw-visual aw-silver">
+                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
+                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></span>
+              </span>
+              <span class="aw-name">Best in Class</span>
+              <span class="aw-meta">Trading Platform</span>
+            </span>
+          </figure>
+
+          <!-- Best Mobile App 2025 -->
+          <figure class="award-card" style="--ax:74%; --ay:64%; --d:.1s">
+            <span class="aw-inner" style="--fd:3.6s">
+              <span class="aw-visual aw-silver">
+                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
+                <span class="aw-center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
+              </span>
+              <span class="aw-name">Best Mobile App</span>
+              <span class="aw-meta">2025</span>
+            </span>
+          </figure>
+
+          <!-- Most Trusted FX Broker -->
+          <figure class="award-card" style="--ax:80%; --ay:46%; --d:0s">
+            <span class="aw-inner" style="--fd:4.5s">
+              <span class="aw-visual aw-gold">
+                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
+                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+              </span>
+              <span class="aw-name">Most Trusted</span>
+              <span class="aw-meta">FX Broker</span>
+            </span>
+          </figure>
+        </div>
+
+        <!-- HEADLINE + COPY (the resting masthead, phone state) -->
+        <div class="mh-content" id="mhContent">
+          <h1 class="mh-title">Built on 100&nbsp;Years<br>of Financial Excellence</h1>
+          <p class="mh-tagline">
+            Trade NVIDIA and 1,000s of markets with award-winning platforms,
+            competitive spreads and lightning-fast execution.
+          </p>
+          <a href="#pricing" class="btn btn-glass-green">Open Account / Try A Demo</a>
+        </div>
+
+        <div class="scroll-cue" id="scrollCue"><span></span>Scroll</div>
+      </section>
+    </div>
 
     <!-- ============ MODULAR 2 — CREDIBILITY ============ -->
     <section class="credibility" id="credibility">
@@ -221,19 +354,138 @@
         </article>
       </div>
     </section>
+
+    <!-- ============ ACCOUNT MODULAR ============ -->
+    <section class="account-modular" id="accountModular">
+      <div class="container am-container">
+        
+        <!-- ============ STICKY ACCOUNT-OPENING GLASS CTA ============ -->
+        <div class="account-bar" id="accountBar" aria-label="Open your account in 3 steps">
+          <div class="ab-steps">
+            <div class="ab-step"><span class="ab-num">1</span><span class="ab-label">Register</span></div>
+            <span class="ab-divider"></span>
+            <div class="ab-step"><span class="ab-num">2</span><span class="ab-label">Deposit</span></div>
+            <span class="ab-divider"></span>
+            <div class="ab-step"><span class="ab-num">3</span><span class="ab-label">Start trading</span></div>
+          </div>
+          <div class="ab-actions">
+            <a href="#" class="btn btn-glass-green ab-cta">Open Account</a>
+            <a href="#" class="btn btn-outline-green ab-login">Log in instead</a>
+          </div>
+        </div>
+        
+        <div class="am-steps-grid">
+          <!-- Step 1 -->
+          <div class="am-step-card">
+            <div class="am-card-bg"></div>
+            <div class="am-num-badge">1</div>
+            <h3 class="am-title">Register</h3>
+            <p class="am-desc">Register an account</p>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="am-step-card am-step-fund">
+            <div class="am-wallet-glow"></div>
+            <div class="am-card-bg"></div>
+            <div class="am-num-badge">2</div>
+            <h3 class="am-title">Deposit</h3>
+            <p class="am-desc">Verify/pay account</p>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="am-step-card">
+            <div class="am-card-bg"></div>
+            <div class="am-num-badge">3</div>
+            <h3 class="am-title">Start trading</h3>
+            <p class="am-desc">on 3,200+ CFD options</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
 
-  <!-- ============ STICKY ACCOUNT-OPENING GLASS CTA ============ -->
-  <div class="account-bar" id="accountBar" aria-label="Open your account in 3 steps">
-    <div class="ab-steps">
-      <div class="ab-step"><span class="ab-num">1</span><span class="ab-label">Register</span></div>
-      <span class="ab-divider"></span>
-      <div class="ab-step"><span class="ab-num">2</span><span class="ab-label">Fund</span></div>
-      <span class="ab-divider"></span>
-      <div class="ab-step"><span class="ab-num">3</span><span class="ab-label">Trade</span></div>
+  <!-- ============ FOOTER / DISCLAIMERS ============ -->
+  <footer class="site-footer" id="footer">
+    <!-- glass CTA band -->
+    <div class="ft-cta reveal">
+      <span class="ft-cta-text">It's your world. <strong>Trade it.</strong></span>
+      <div class="ft-cta-actions">
+        <a href="#" class="btn ft-login">Log in</a>
+        <a href="#pricing" class="btn btn-glass-green ft-open">Open an account</a>
+      </div>
     </div>
-    <a href="#" class="btn btn-glass-green ab-cta">Open Account</a>
-  </div>
+
+    <div class="ft-inner">
+      <!-- link columns -->
+      <nav class="ft-cols" aria-label="Footer">
+        <div class="ft-col">
+          <h4>Tell me more about</h4>
+          <ul>
+            <li><a href="#">Range of Markets</a></li>
+            <li><a href="#">Trading Platforms</a></li>
+            <li><a href="#">Trading Costs</a></li>
+            <li><a href="#">Margin Requirements</a></li>
+          </ul>
+        </div>
+        <div class="ft-col">
+          <h4>I would like to</h4>
+          <ul>
+            <li><a href="#">Fund My Account</a></li>
+            <li><a href="#">Withdraw Funds</a></li>
+            <li><a href="#">Download FOREX.com Platforms</a></li>
+            <li><a href="#">Download TradingView</a></li>
+            <li><a href="#">Download MT5</a></li>
+          </ul>
+        </div>
+        <div class="ft-col">
+          <h4>I would like to learn about</h4>
+          <ul>
+            <li><a href="#">Trading Forex</a></li>
+            <li><a href="#">Managing Risk</a></li>
+            <li><a href="#">Technical Analysis</a></li>
+            <li><a href="#">Trading Volatility</a></li>
+          </ul>
+        </div>
+        <div class="ft-col ft-help">
+          <p class="ft-help-line">Need help? <a href="#" class="ft-contact">Contact us</a></p>
+          <h4>Connect</h4>
+          <div class="ft-social">
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v6h3v-6h2.5l.5-3H13v-2c0-.6.4-1 1-1Z"/></svg></a>
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h2.6l-5.7 6.5L21 21h-5.3l-4.1-5.4L6.8 21H4.2l6.1-7L3.4 3h5.4l3.7 4.9L17.5 3Zm-.9 16h1.4L8.5 4.4H7L16.6 19Z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a3 3 0 0 0-2.1-2.1C18 5.5 12 5.5 12 5.5s-6 0-7.9.6A3 3 0 0 0 2 8.2 31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.6 7.9.6 7.9.6s6 0 7.9-.6a3 3 0 0 0 2.1-2.1c.4-1.9.4-3.8.4-3.8s0-1.9-.4-3.8ZM10 15V9l5.2 3L10 15Z"/></svg></a>
+          </div>
+          <p class="ft-stonex">Part of <strong>StoneX</strong> Group Inc.</p>
+        </div>
+      </nav>
+
+      <!-- secondary links -->
+      <ul class="ft-links">
+        <li><a href="#">Disclosures and Risk Warning</a></li>
+        <li><a href="#">Customer Agreement</a></li>
+        <li><a href="#">Partnerships</a></li>
+        <li><a href="#">Investor Relations</a></li>
+        <li><a href="#">Press Releases</a></li>
+      </ul>
+
+      <!-- legal disclaimer -->
+      <div class="ft-legal">
+        <p>FOREX.com is a registered FCM and RFED with the CFTC and member of the National Futures Association (NFA&nbsp;#&nbsp;0339826). Forex trading involves significant risk of loss and is not suitable for all investors. <a href="#">Full Disclosures and Risk Warning</a>. <strong>Increased leverage increases risk.</strong></p>
+        <p>GAIN Capital Group LLC (dba FOREX.com) 30 Independence Blvd, Suite&nbsp;300 (3rd&nbsp;floor), Warren, NJ&nbsp;07059, USA. GAIN Capital Group LLC is a wholly-owned subsidiary of StoneX Group Inc.</p>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="ft-bottom">
+        <span class="ft-copy">© FOREX.COM 2026</span>
+        <ul class="ft-mini">
+          <li><a href="#">Terms and Policies</a></li>
+          <li><a href="#">Sitemap</a></li>
+          <li><a href="#">StoneX</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
