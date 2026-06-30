@@ -35,6 +35,52 @@
   }
 
   /* ============================================================
+     MARKETS CLASSIFICATION — class cards cycle on scroll,
+     the body copy + stat below swap to match the active card
+     ============================================================ */
+  (function marketsCycle() {
+    const scroller = document.getElementById("credScroll");
+    const markets = document.getElementById("markets");
+    if (!scroller || !markets) return;
+    const cards = Array.from(markets.querySelectorAll(".market-card"));
+    const bodyEl = document.getElementById("credBody");
+    const statEl = document.getElementById("credStat");
+    let current = cards.findIndex((c) => c.classList.contains("active"));
+    if (current < 0) current = 0;
+    let swapT = null;
+
+    function setActive(idx) {
+      if (idx === current) return;
+      current = idx;
+      cards.forEach((c, i) => c.classList.toggle("active", i === idx));
+      const card = cards[idx];
+      const desc = card.getAttribute("data-desc") || "";
+      const stat = card.getAttribute("data-stat") || "";
+      if (bodyEl) bodyEl.classList.add("swap");
+      if (statEl) statEl.classList.add("swap");
+      clearTimeout(swapT);
+      swapT = setTimeout(() => {
+        if (bodyEl) { bodyEl.textContent = desc; bodyEl.classList.remove("swap"); }
+        if (statEl) { statEl.textContent = stat; statEl.classList.remove("swap"); }
+      }, 180);
+    }
+
+    function onScroll() {
+      const total = scroller.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(-scroller.getBoundingClientRect().top, 0), total);
+      const p = total > 0 ? scrolled / total : 0;
+      let idx = Math.floor(p * cards.length);
+      if (idx >= cards.length) idx = cards.length - 1;
+      if (idx < 0) idx = 0;
+      setActive(idx);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+  })();
+
+  /* ============================================================
      LIVE MARKET MASTHEAD — data sim, chart, cinematic states
      ============================================================ */
   const masthead = document.getElementById("top");
@@ -77,42 +123,25 @@
     /* ---- DOM refs ---- */
     const elPrice = document.getElementById("tkPrice");
     const elChange = document.getElementById("tkChange");
-    const elName = document.getElementById("tkName");
-    const elDesc = document.getElementById("marketDesc");
+    const elPill = document.getElementById("tkPill");
+    const elCaret = elPill ? elPill.querySelector(".hh-caret") : null;
+    const elTime = document.getElementById("tkTime");
     const elSym = document.getElementById("tkSymbol");
-    const phPrice = document.getElementById("phPrice");
-    const phChange = document.getElementById("phChange");
-    const phSym = document.getElementById("phSymbol");
-    const volDots = Array.from(document.querySelectorAll("#volTicks .vt-dot"));
-    if (elName) elName.textContent = SYM.name;
-    if (elDesc) elDesc.textContent = SYM.desc;
+    const symLabels = Array.from(document.querySelectorAll(".hgc-sym"));
     if (elSym) elSym.textContent = symKey;
-    if (phSym) phSym.textContent = symKey;
-
-    /* ---- rotating in-phone nudge copy ---- */
-    const nudgeEl = document.getElementById("deviceNudge");
-    if (nudgeEl) {
-      const NUDGES = [
-        "🎯 Practice risk-free with $10,000 virtual funds",
-        "🔥 " + symKey + " is trending — trade the move",
-        "⚡ Open your account in under 90 seconds",
-        "💸 $0 commission on US shares",
-        "🚀 Join 1M+ traders worldwide",
-        "🆓 Try a demo — no deposit needed",
-        "📈 Don't miss the next big move",
-      ];
-      let ni = 0;
-      setInterval(() => {
-        ni = (ni + 1) % NUDGES.length;
-        nudgeEl.classList.add("swap");
-        setTimeout(() => {
-          nudgeEl.textContent = NUDGES[ni];
-          nudgeEl.classList.remove("swap");
-        }, 400);
-      }, 3200);
-    }
+    symLabels.forEach((s) => (s.textContent = symKey));
 
     const fmt = (n) => "$" + n.toFixed(2);
+
+    function fmtClock() {
+      const d = new Date();
+      const mon = d.toLocaleString("en-US", { month: "short" });
+      let h = d.getHours();
+      const m = String(d.getMinutes()).padStart(2, "0");
+      const ap = h >= 12 ? "pm" : "am";
+      h = h % 12 || 12;
+      return `${d.getDate()} ${mon}, ${h}:${m}${ap} GMT-4`;
+    }
 
     function updateTickerDOM() {
       const last = candles[candles.length - 1].c;
@@ -123,25 +152,14 @@
       const abs = Math.abs(chg).toFixed(2);
       const pctTxt = Math.abs(pct).toFixed(2);
       if (elPrice) elPrice.textContent = fmt(last);
-      if (elChange) {
-        elChange.textContent = `${sign}${abs} (${pctTxt}%)`;
-        elChange.className = "tk-change " + (up ? "up" : "down");
-      }
-      if (phPrice) phPrice.textContent = fmt(last);
-      if (phChange) {
-        phChange.textContent = `${sign}${pctTxt}%`;
-        phChange.className = "ph-change " + (up ? "up" : "down");
-      }
-      // last 3 directional moves -> vol dots
-      const dirs = [];
-      for (let i = candles.length - 3; i < candles.length; i++) {
-        dirs.push(candles[i].c >= candles[i].o ? "up" : "down");
-      }
-      volDots.forEach((d, i) => { d.className = "vt-dot " + (dirs[i] || ""); });
+      if (elChange) elChange.textContent = `${sign}${abs} (${pctTxt}%)`;
+      if (elPill) elPill.className = "hh-pill " + (up ? "up" : "down");
+      if (elCaret) elCaret.textContent = up ? "▲" : "▼";
+      if (elTime) elTime.textContent = fmtClock();
     }
 
     /* ---- chart renderer (view = how many candles from the right are shown) ---- */
-    function drawChart(canvas, view) {
+    function drawChart(canvas, view, topFrac) {
       const ctx = canvas.getContext("2d");
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -149,6 +167,10 @@
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
+
+      // keep the plot in the lower band so hero text sits cleanly above it
+      const topPx = h * Math.max(0, Math.min(0.7, topFrac || 0));
+      const plotH = h - topPx;
 
       view = Math.max(4, Math.min(N, view || N));
       const start = N - view;                       // fractional ok
@@ -166,15 +188,15 @@
       const padX = w * 0.02;
       const innerW = w - padX * 2;
       const X = (i) => padX + ((i - start) / (view - 1)) * innerW;
-      const Y = (p) => h - ((p - min) / (max - min)) * h;
+      const Y = (p) => h - ((p - min) / (max - min)) * plotH;
 
-      // grid
+      // grid (confined to the plot band)
       ctx.strokeStyle = "rgba(255,255,255,0.05)";
       ctx.lineWidth = 1;
       ctx.font = "11px 'Plus Jakarta Sans', sans-serif";
       ctx.fillStyle = "rgba(255,255,255,0.28)";
       for (let g = 0; g <= 4; g++) {
-        const yy = (h / 4) * g;
+        const yy = topPx + (plotH / 4) * g;
         ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(w, yy); ctx.stroke();
         const val = max - ((max - min) / 4) * g;
         ctx.fillText(val.toFixed(1), w - 42, yy + 14);
@@ -185,7 +207,7 @@
       const lineCol = up ? "#4cf09a" : "#ff7d8d";
 
       // area under close line
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      const grad = ctx.createLinearGradient(0, topPx, 0, h);
       grad.addColorStop(0, up ? "rgba(76,240,154,0.30)" : "rgba(255,107,125,0.30)");
       grad.addColorStop(1, "rgba(76,240,154,0)");
       ctx.beginPath();
@@ -223,10 +245,14 @@
       ctx.beginPath(); ctx.arc(lx, ly, 12, 0, Math.PI * 2); ctx.fill();
     }
 
+    const gridCanvases = Array.from(document.querySelectorAll(".hgc-canvas"));
     let viewCount = N;            // current candles shown in hero chart
+    // lower-band top for the zoomed-out hero chart — pushed down more on narrow screens
+    const bgTopTarget = () => (window.innerWidth <= 768 ? 0.54 : 0.42);
+    let bgTopFrac = 0;            // 0 during the immersive close-up intro
     function renderAll() {
-      drawChart(bgCanvas, viewCount);
-      if (phoneCanvas) drawChart(phoneCanvas, N);
+      drawChart(bgCanvas, viewCount, bgTopFrac);
+      gridCanvases.forEach((c) => drawChart(c, N, 0));
       updateTickerDOM();
     }
 
@@ -245,8 +271,27 @@
 
     /* ---- cinematic camera (JS-driven) — only the phone shrink uses transform ---- */
     const cam = document.getElementById("heroCam");
-    const REST  = { scale: 1,    txp: 0, typ: 0, opacity: 1 };
-    const PHONE = { scale: 0.34, txp: 0, typ: 0, opacity: 0 };
+    const hgCardsEl = document.getElementById("hgCards");
+    const REST = { scale: 1,    txp: 0, typ: 0, opacity: 1 };
+    const GRID = { scale: 0.32, txp: 0, typ: 6, opacity: 0 };
+
+    // shrink the live chart onto the centre of the mini-chart row so it hands off
+    // seamlessly to one of the carousel cards (transform-origin is 50% 62%)
+    function computeGridTarget() {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const card = hgCardsEl && hgCardsEl.querySelector(".hg-card");
+      if (!card) return Object.assign({}, GRID);
+      const cr = card.getBoundingClientRect();
+      const row = hgCardsEl.getBoundingClientRect();
+      const s = Math.max(0.12, cr.width / vw);
+      const ox = vw * 0.5, oy = vh * 0.62;       // cam transform-origin
+      const Tx = vw * 0.5;                        // land at horizontal centre
+      const Ty = row.top + row.height / 2;        // vertical centre of the card row
+      const tx = Tx - ox - s * (vw / 2 - ox);
+      const ty = Ty - oy - s * (vh / 2 - oy);
+      return { scale: s, txp: (tx / vw) * 100, typ: (ty / vh) * 100, opacity: 0 };
+    }
+
     let cur = Object.assign({}, REST);
     let target = Object.assign({}, REST);
     let osc = 0;                 // vertical bob (px) during intro
@@ -261,10 +306,9 @@
     function setState(next) {
       if (state === next) return;
       state = next;
-      masthead.classList.remove("state-intro", "state-full", "state-phone", "state-awards");
+      masthead.classList.remove("state-intro", "state-full", "state-grid");
       masthead.classList.add("state-" + next);
-      const collapsed = next === "phone" || next === "awards";
-      target = Object.assign({}, collapsed ? PHONE : REST);
+      target = Object.assign({}, next === "grid" ? computeGridTarget() : REST);
     }
 
     function camLoop() {
@@ -272,7 +316,15 @@
       cur.scale += (target.scale - cur.scale) * k;
       cur.txp += (target.txp - cur.txp) * k;
       cur.typ += (target.typ - cur.typ) * k;
-      cur.opacity += (target.opacity - cur.opacity) * k;
+      if (state === "grid") {
+        // keep the shrinking chart fully visible until it nearly reaches card size,
+        // then fade quickly so it hands off to the carousel card underneath
+        const span = (1 - target.scale) || 1;
+        const prog = Math.min(1, Math.max(0, (1 - cur.scale) / span));
+        cur.opacity = prog < 0.62 ? 1 : Math.max(0, 1 - (prog - 0.62) / 0.38);
+      } else {
+        cur.opacity += (target.opacity - cur.opacity) * k;
+      }
       applyCam();
       requestAnimationFrame(camLoop);
     }
@@ -282,12 +334,12 @@
     function runIntro() {
       viewCount = INTRO_VIEW;
       renderAll();
-      const bobDur = 1500;
+      const bobDur = 3500;
       const start = performance.now();
       const amp = 22;
       function bob(now) {
         const t = Math.min(1, (now - start) / bobDur);
-        osc = Math.sin(t * Math.PI * 3) * amp * (1 - t);   // follow volatility, ease out
+        osc = Math.sin(t * Math.PI * 7) * amp * (1 - t);   // follow volatility, ease out
         if (t < 1) { requestAnimationFrame(bob); }
         else { osc = 0; zoomOut(); }
       }
@@ -301,26 +353,26 @@
         const t = Math.min(1, (now - start) / dur);
         const e = 1 - Math.pow(1 - t, 3);                  // easeOutCubic
         viewCount = from + (to - from) * e;
+        bgTopFrac = bgTopTarget() * e;                      // settle the chart into the lower band
         renderAll();
         if (t < 1) requestAnimationFrame(frame);
-        else { viewCount = N; renderAll(); setState("full"); introDone = true; }
+        else { viewCount = N; bgTopFrac = bgTopTarget(); renderAll(); setState("full"); introDone = true; }
       }
       requestAnimationFrame(frame);
     }
 
-    /* ---- scroll-driven full -> phone -> awards ---- */
+    /* ---- scroll-driven full -> grid ---- */
     let introDone = false;
     window.addEventListener("scroll", () => {
       if (!introDone) return;
       const vh = window.innerHeight || 800;
       const y = window.scrollY;
-      if (y > vh * 0.95) setState("awards");
-      else if (y > vh * 0.3) setState("phone");
+      if (y > vh * 0.5) setState("grid");
       else setState("full");
     }, { passive: true });
 
     /* ---- capture / reduced-motion overrides ---- */
-    const forced = (location.search.match(/state=(intro|full|phone|awards)/) || [])[1];
+    const forced = (location.search.match(/state=(intro|full|grid)/) || [])[1];
 
     function boot() {
       applyCam();
@@ -330,18 +382,19 @@
       if (forced) {
         introDone = true;
         viewCount = forced === "intro" ? INTRO_VIEW : N;
-        const rest = (forced === "phone" || forced === "awards") ? PHONE : REST;
+        bgTopFrac = forced === "intro" ? 0 : bgTopTarget();
+        const rest = forced === "grid" ? computeGridTarget() : REST;
         cur = Object.assign({}, rest);
         target = Object.assign({}, rest);
         applyCam();
-        masthead.classList.remove("state-intro", "state-full", "state-phone", "state-awards");
+        masthead.classList.remove("state-intro", "state-full", "state-grid");
         masthead.classList.add("state-" + forced);
         state = forced;
         renderAll();
         return;
       }
       if (reduceMotion) {
-        viewCount = N; renderAll();
+        viewCount = N; bgTopFrac = bgTopTarget(); renderAll();
         masthead.classList.remove("state-intro");
         masthead.classList.add("state-full");
         state = "full"; introDone = true;
@@ -350,7 +403,11 @@
       runIntro();
     }
 
-    window.addEventListener("resize", renderAll);
+    window.addEventListener("resize", () => {
+      if (introDone && state !== "intro") bgTopFrac = bgTopTarget();
+      if (state === "grid") target = computeGridTarget();
+      renderAll();
+    });
     boot();
   }
 
@@ -390,17 +447,66 @@
     });
   }
 
-  /* ---------- News carousel arrows ---------- */
+  /* ---------- News: continuously side-scrolling article rail ---------- */
   const track = document.getElementById("newsTrack");
+  const marquee = document.getElementById("newsMarquee");
   const prev = document.getElementById("newsPrev");
   const next = document.getElementById("newsNext");
-  if (track && prev && next) {
+  if (marquee && !reduceMotion) {
+    // duplicate the cards once so the -50% loop is perfectly seamless
+    Array.from(marquee.children).forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      marquee.appendChild(clone);
+    });
+    // arrows flip the scroll direction instead of paging
+    if (next) next.addEventListener("click", () => marquee.classList.remove("rev"));
+    if (prev) prev.addEventListener("click", () => marquee.classList.add("rev"));
+  } else if (track && prev && next) {
+    // reduced-motion fallback: manual paging through the rail
+    track.style.overflowX = "auto";
     const step = () => {
       const card = track.querySelector(".news-card");
       return card ? card.offsetWidth + 24 : 360;
     };
     next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
     prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+  }
+
+  /* ---------- About: floating stack reveals info on hover/focus ---------- */
+  const stackInfo = document.getElementById("stackInfo");
+  const layers = document.querySelectorAll(".about .layer");
+  if (stackInfo && layers.length) {
+    const siTitle = stackInfo.querySelector(".si-title");
+    const siText = stackInfo.querySelector(".si-text");
+    let hideT = null;
+    const show = (layer) => {
+      clearTimeout(hideT);
+      layers.forEach((l) => l.classList.toggle("is-active", l === layer));
+      const t = layer.querySelector(".layer-title");
+      const i = layer.querySelector(".layer-info");
+      if (siTitle && t) siTitle.textContent = t.textContent;
+      if (siText && i) siText.textContent = i.textContent;
+      stackInfo.classList.add("show");
+    };
+    const hide = () => {
+      hideT = setTimeout(() => {
+        layers.forEach((l) => l.classList.remove("is-active"));
+        stackInfo.classList.remove("show");
+      }, 120);
+    };
+    layers.forEach((layer) => {
+      layer.addEventListener("mouseenter", () => show(layer));
+      layer.addEventListener("mouseleave", hide);
+      layer.addEventListener("focus", () => show(layer));
+      layer.addEventListener("blur", hide);
+    });
+    // pre-fill (kept hidden until hover) for a11y + first paint
+    const first = layers[0];
+    const ft = first.querySelector(".layer-title");
+    const fi = first.querySelector(".layer-info");
+    if (siTitle && ft) siTitle.textContent = ft.textContent;
+    if (siText && fi) siText.textContent = fi.textContent;
   }
 
   /* ---------- Sticky Account-Opening glass bar ---------- */
@@ -410,34 +516,15 @@
     const modular = document.getElementById("accountModular");
     const onScrollBar = () => {
       const past = masthead ? masthead.offsetHeight * 0.6 : 500;
-      let isSnapped = false;
-      
+      // hide the floating CTA once the account section (which has its own bold CTA) appears
+      let atSection = false;
       if (modular) {
-        // If modular is in view or user scrolled past its top
         const modRect = modular.getBoundingClientRect();
-        // Snap when the fixed bar would hit the top of the container
-        // Or simply when the modular enters the viewport. Let's snap when the modular top is less than viewport height
-        // To make it look like it snaps into place, we snap when the container's top reaches the bottom of the viewport
-        // Actually, we want it to be absolute at the top of the container. 
-        // When we scroll, it moves up. 
-        
-        // The fixed bar is at bottom: 26px. Let's say its height is around 64px.
-        // It occupies window.innerHeight - 90 to window.innerHeight - 26.
-        // If we snap when modRect.top reaches the bar's position:
-        if (modRect.top <= window.innerHeight - 26 - bar.offsetHeight) {
-
-          isSnapped = true;
-        }
+        if (modRect.top <= window.innerHeight * 0.85) atSection = true;
       }
-      
-      if (isSnapped) {
-        bar.classList.add("show");
-        bar.classList.add("snapped");
-      } else {
-        bar.classList.remove("snapped");
-        const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 80;
-        bar.classList.toggle("show", window.scrollY > past && !nearBottom);
-      }
+      const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 80;
+      bar.classList.remove("snapped");
+      bar.classList.toggle("show", window.scrollY > past && !nearBottom && !atSection);
     };
     window.addEventListener("scroll", onScrollBar, { passive: true });
     onScrollBar();

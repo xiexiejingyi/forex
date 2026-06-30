@@ -47,249 +47,292 @@
           <div class="hero-chart-fade" aria-hidden="true"></div>
         </div>
 
-        <!-- LIVE TICKER OVERLAY -->
-        <div class="market-overlay" id="marketOverlay">
-          <span class="live-pill"><span class="live-dot"></span>LIVE&nbsp;·&nbsp;Most Trending</span>
-          <div class="ticker-head">
-            <span class="tk-symbol" id="tkSymbol">NVDA</span>
-            <span class="tk-name" id="tkName">NVIDIA Corporation · NASDAQ</span>
+        <!-- HERO HEAD (resting hero): ticker (left) + market pitch (right) -->
+        <div class="hero-head" id="heroHead">
+          <div class="hh-left">
+            <span class="live-pill"><span class="live-dot"></span>LIVE&nbsp;·&nbsp;Most Trending</span>
+            <h1 class="hh-symbol"><span id="tkSymbol">NVDA</span><span class="hh-dot">•</span></h1>
+            <span class="hh-pill up" id="tkPill">
+              <span class="hh-caret">▲</span>
+              <span class="hh-price" id="tkPrice">$0.00</span>
+              <span class="hh-change" id="tkChange">+0.00 (0.00%)</span>
+            </span>
+            <div class="hh-time" id="tkTime">—</div>
           </div>
-          <div class="ticker-price">
-            <span class="tk-price" id="tkPrice">$0.00</span>
-            <span class="tk-change up" id="tkChange">+0.00 (0.00%)</span>
+          <div class="hh-right">
+            <h2 class="hh-headline">The market's most<br>sought-after asset&nbsp;class</h2>
+            <p class="hh-desc" id="marketDesc">Discover the complete CFD experience with award-winning platforms, competitive spreads, low commissions, fast execution and dedicated support.</p>
+            <a href="#pricing" class="btn btn-glass-green hh-cta">Open Account / Try A Demo</a>
           </div>
-          <p class="market-desc" id="marketDesc">
-            NVIDIA powers the global AI compute boom — its GPUs run the world's data centres,
-            making it one of the most actively traded names on Wall Street right now.
-          </p>
-          <!-- last 3 up/down volatility ticks -->
-          <div class="vol-ticks" id="volTicks" aria-label="Recent moves">
-            <span class="vt-label">Last moves</span>
-            <span class="vt-dot"></span><span class="vt-dot"></span><span class="vt-dot"></span>
-          </div>
-          <a href="#pricing" class="btn btn-glass-green mo-cta">Open Account / Try A Demo</a>
         </div>
 
-        <!-- PHONE-IN-HAND (revealed on scroll) -->
-        <div class="hand-rig" id="handRig" aria-hidden="true">
-          <div class="euro-bg" aria-hidden="true">€</div>
-          <div class="handshot">
-            <img class="handshot-img" src="assets/hand-phone.png" alt="Hand holding a phone showing the live NVDA chart" />
-            <div class="handshot-screen">
-              <canvas id="phoneChart"></canvas>
-              <div class="device-ticker">
-                <span id="phSymbol">NVDA</span>
-                <span class="ph-price" id="phPrice">$0.00</span>
-                <span class="ph-change up" id="phChange">+0.00%</span>
-              </div>
+        <!-- GRID (revealed on scroll): the live chart minimises into a carousel of mini charts -->
+        <div class="hero-grid" id="heroGrid" aria-hidden="true">
+          <h2 class="hg-title">One of the <strong>best-performing</strong><br>asset classes in today's market</h2>
 
-              <!-- in-phone conversion panel -->
-              <div class="device-cta">
-                <span class="device-nudge" id="deviceNudge">Practice risk-free with $10,000 virtual funds</span>
-                <div class="device-btns">
-                  <a href="#pricing" class="dv-btn dv-primary">Open Account</a>
-                  <a href="#pricing" class="dv-btn dv-ghost">Try a Demo</a>
-                </div>
-              </div>
+          <div class="hg-arc" aria-hidden="true"></div>
+
+          <div class="hg-cards" id="hgCards">
+            <div class="hg-track" id="hgTrack">
+              <!-- group A -->
+              <article class="hg-card"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <!-- group B (duplicate for a seamless loop) -->
+              <article class="hg-card" aria-hidden="true"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card" aria-hidden="true"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card" aria-hidden="true"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card" aria-hidden="true"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
+              <article class="hg-card" aria-hidden="true"><div class="hgc-inner"><div class="hgc-head"><span class="hgc-sym">NVDA</span><span class="hgc-dot">•</span></div><canvas class="hgc-canvas"></canvas></div></article>
             </div>
           </div>
-        </div>
 
-        <!-- AWARD RAIL — glass squares in a semi-circle around the bottom of the hand (revealed on 2nd scroll) -->
-        <div class="award-rail" id="awardRail" aria-label="Awards and ratings">
-          <!-- Trustpilot · Excellent -->
-          <figure class="award-card" style="--ax:20%; --ay:46%; --d:.5s">
-            <span class="aw-inner" style="--fd:0s">
-              <span class="aw-visual aw-trust">
-                <span class="aw-tile">
-                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
-                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
-                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
-                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
-                  <i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></i>
-                </span>
+          <a href="#news" class="btn btn-glass-green hg-more">See more</a>
+
+          <!-- award / rating badges (glass) -->
+          <div class="hg-awards" aria-label="Awards and ratings">
+            <figure class="hg-badge" style="--bd:0s">
+              <span class="bdg-seedly">4.7</span>
+              <span class="bdg-label">Seedly</span>
+            </figure>
+
+            <figure class="hg-badge" style="--bd:.08s">
+              <span class="bdg-tp-name">Trustpilot</span>
+              <span class="bdg-tp-star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></span>
+              <span class="bdg-tp-score">4.6</span>
+            </figure>
+
+            <figure class="hg-badge" style="--bd:.16s">
+              <span class="bdg-medal">
+                <svg class="bdg-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
+                <span class="bdg-medal-txt">Best in Class<br><b>Overall</b><br>2026</span>
               </span>
-              <span class="aw-name">Trustpilot</span>
-              <span class="aw-meta">Excellent</span>
-            </span>
-          </figure>
+            </figure>
 
-          <!-- Overall Excellence 2025 -->
-          <figure class="award-card" style="--ax:26%; --ay:64%; --d:.4s">
-            <span class="aw-inner" style="--fd:.9s">
-              <span class="aw-visual aw-gold">
-                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
-                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></span>
-              </span>
-              <span class="aw-name">Overall Excellence</span>
-              <span class="aw-meta">2025</span>
-            </span>
-          </figure>
-
-          <!-- Rated 4.9 / 5 -->
-          <figure class="award-card" style="--ax:41%; --ay:75%; --d:.3s">
-            <span class="aw-inner" style="--fd:1.8s">
-              <span class="aw-visual">
-                <span class="aw-stars gold">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-                </span>
-              </span>
-              <span class="aw-big">4.9/5</span>
-              <span class="aw-meta">4,900+ reviews</span>
-            </span>
-          </figure>
-
-          <!-- Best in Class Trading Platform -->
-          <figure class="award-card" style="--ax:59%; --ay:75%; --d:.2s">
-            <span class="aw-inner" style="--fd:2.7s">
-              <span class="aw-visual aw-silver">
-                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
-                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></span>
-              </span>
-              <span class="aw-name">Best in Class</span>
-              <span class="aw-meta">Trading Platform</span>
-            </span>
-          </figure>
-
-          <!-- Best Mobile App 2025 -->
-          <figure class="award-card" style="--ax:74%; --ay:64%; --d:.1s">
-            <span class="aw-inner" style="--fd:3.6s">
-              <span class="aw-visual aw-silver">
-                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
-                <span class="aw-center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
-              </span>
-              <span class="aw-name">Best Mobile App</span>
-              <span class="aw-meta">2025</span>
-            </span>
-          </figure>
-
-          <!-- Most Trusted FX Broker -->
-          <figure class="award-card" style="--ax:80%; --ay:46%; --d:0s">
-            <span class="aw-inner" style="--fd:4.5s">
-              <span class="aw-visual aw-gold">
-                <svg class="aw-laurel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90C30 86 18 68 20 46"/><path d="M50 90C70 86 82 68 80 46"/><path d="M26 78q-9 -3 -13 -12"/><path d="M21 67q-9 -2 -13 -10"/><path d="M20 55q-9 -1 -12 -9"/><path d="M21 45q-9 0 -12 -7"/><path d="M74 78q9 -3 13 -12"/><path d="M79 67q9 -2 13 -10"/><path d="M80 55q9 -1 12 -9"/><path d="M79 45q9 0 12 -7"/></svg>
-                <span class="aw-center"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
-              </span>
-              <span class="aw-name">Most Trusted</span>
-              <span class="aw-meta">FX Broker</span>
-            </span>
-          </figure>
-        </div>
-
-        <!-- HEADLINE + COPY (the resting masthead, phone state) -->
-        <div class="mh-content" id="mhContent">
-          <h1 class="mh-title">Built on 100&nbsp;Years<br>of Financial Excellence</h1>
-          <p class="mh-tagline">
-            Trade NVIDIA and 1,000s of markets with award-winning platforms,
-            competitive spreads and lightning-fast execution.
-          </p>
-          <a href="#pricing" class="btn btn-glass-green">Open Account / Try A Demo</a>
+            <figure class="hg-badge bdg-wide" style="--bd:.24s">
+              <svg class="bdg-wreath bdg-wreath-l" viewBox="0 0 50 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M44 92C24 88 12 70 14 48"/><path d="M20 80q-9 -3 -13 -12"/><path d="M15 69q-9 -2 -13 -10"/><path d="M14 57q-9 -1 -12 -9"/><path d="M15 47q-9 0 -12 -7"/></svg>
+              <span class="bdg-wreath-txt">Best regulated<br>CFD broker in<br>Singapore<br><b>Asia Forex Mentor</b></span>
+              <svg class="bdg-wreath bdg-wreath-r" viewBox="0 0 50 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 92C26 88 38 70 36 48"/><path d="M30 80q9 -3 13 -12"/><path d="M35 69q9 -2 13 -10"/><path d="M36 57q9 -1 12 -9"/><path d="M35 47q9 0 12 -7"/></svg>
+            </figure>
+          </div>
         </div>
 
         <div class="scroll-cue" id="scrollCue"><span></span>Scroll</div>
       </section>
     </div>
 
-    <!-- ============ MODULAR 2 — CREDIBILITY ============ -->
-    <section class="credibility" id="credibility">
-      <div class="euro-symbol euro-ghost" aria-hidden="true">€</div>
-      <div class="cred-head">
-        <h2 class="reveal">Trusted by over <strong>1&nbsp;million traders</strong><sup>*</sup><br>+ Markets Classification</h2>
-        <p class="reveal">Trade major FX pairs with spreads as low as 0.0<br>and low commissions.</p>
-      </div>
+    <!-- ============ MODULAR 2 — CREDIBILITY / MARKETS CLASSIFICATION ============ -->
+    <div class="cred-scroll" id="credScroll">
+      <section class="credibility" id="credibility">
+        <!-- green euro planet behind the stage -->
+        <div class="mk-bg" aria-hidden="true">
+          <div class="mk-orb"></div>
+          <div class="euro-symbol euro-ghost">€</div>
+        </div>
 
-      <div class="markets">
-        <article class="market-card mc-sm reveal" style="--i:0">
-          <div class="mc-media mc-gold"></div>
-          <h3>Gold &amp; Silver</h3>
-        </article>
-        <article class="market-card mc-md reveal" style="--i:1">
-          <div class="mc-media mc-indices"></div>
-          <h3>Indices</h3>
-        </article>
-        <article class="market-card mc-lg reveal" style="--i:2">
-          <div class="mc-media mc-forex"></div>
-          <h3>Forex</h3>
-        </article>
-        <article class="market-card mc-md reveal" style="--i:3">
-          <div class="mc-media mc-shares"></div>
-          <h3>Shares</h3>
-        </article>
-      </div>
-    </section>
+        <div class="cred-inner">
+          <div class="cred-head reveal">
+            <h2>Trusted by over <strong>1&nbsp;million traders</strong><sup>*</sup><br>+ Markets Classification</h2>
+          </div>
+
+          <!-- floating market chips + the FOREX card held in hand -->
+          <div class="markets" id="markets">
+            <!-- FOREX — held by the hand -->
+            <div class="mk-hand handshot">
+              <img class="handshot-img" src="assets/hand-phone.png" alt="" />
+              <article class="market-card mk-forex active" data-i="2"
+                data-stat="80+ FX pairs · spreads from 0.0"
+                data-desc="Trade major FX pairs with spreads as low as 0.0 and low commissions.">
+                <h3>Forex</h3>
+                <span class="mc-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="3.4"/><path d="M24 8v4M24 36v4M8 24h4M36 24h4M12.7 12.7l2.9 2.9M32.4 32.4l2.9 2.9M35.3 12.7l-2.9 2.9M15.6 32.4l-2.9 2.9"/></svg></span>
+              </article>
+            </div>
+
+            <!-- Gold & Silver — top -->
+            <div class="mk-slot mk-gold">
+              <article class="market-card" data-i="0"
+                data-stat="Spreads from 0.3 pts · 24/5"
+                data-desc="Trade gold, silver and other precious metals as safe-haven assets — with deep liquidity and tight spreads, around the clock.">
+                <h3>Gold &amp; Silver</h3>
+                <span class="mc-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="13"/><path d="M24 16.5v15M20.5 20.5h6a2.5 2.5 0 0 1 0 5h-6.5 7a2.5 2.5 0 0 1 0 5h-6.5"/></svg></span>
+              </article>
+            </div>
+
+            <!-- Indices — left -->
+            <div class="mk-slot mk-indices">
+              <article class="market-card" data-i="1"
+                data-stat="20+ global indices"
+                data-desc="Get exposure to the world's leading stock indices — US 500, Wall Street 30 and Germany 40 — all in a single position.">
+                <h3>Indices</h3>
+                <span class="mc-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M11 35V25M20 35V15M29 35V27M38 35V11"/></svg></span>
+              </article>
+            </div>
+
+            <!-- Shares — right -->
+            <div class="mk-slot mk-shares">
+              <article class="market-card" data-i="3"
+                data-stat="4,500+ global shares · $0 commission"
+                data-desc="Go long or short on thousands of shares — Apple, Tesla, Nvidia and more — with leverage and zero commission.">
+                <h3>Shares</h3>
+                <span class="mc-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 13v5M15 30v5M33 11v6M33 29v8"/><rect x="11" y="18" width="8" height="12" rx="2"/><rect x="29" y="17" width="8" height="12" rx="2"/></svg></span>
+              </article>
+            </div>
+          </div>
+
+          <div class="cred-detail">
+            <span class="cred-stat reveal" id="credStat">80+ FX pairs · spreads from 0.0</span>
+            <p class="cred-body reveal" id="credBody">Trade major FX pairs with spreads as low as 0.0 and low commissions.</p>
+            <a href="#pricing" class="btn btn-glass-green cred-cta reveal">Open Account / Try A Demo</a>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <!-- ============ MODULAR 3 — LATEST NEWS & ANALYSIS ============ -->
     <section class="news" id="news">
-      <div class="news-aside reveal">
-        <h2>Latest News<br>&amp; Analysis</h2>
-        <button class="btn btn-glass-green" type="button">See more</button>
-        <div class="news-controls">
-          <button class="news-arrow" id="newsPrev" aria-label="Previous">&larr;</button>
-          <button class="news-arrow" id="newsNext" aria-label="Next">&rarr;</button>
+      <div class="news-head">
+        <h2 class="reveal">Latest News<br>&amp; Analysis</h2>
+        <div class="news-intro reveal">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+          <button class="btn btn-glass-green" type="button">See more</button>
         </div>
       </div>
 
-      <div class="news-track" id="newsTrack">
-        <!-- cards injected/duplicated; base set below -->
-        <article class="news-card reveal">
-          <div class="nc-thumb">
-            <span class="nc-logo">FOREX<small>.com</small></span>
-            <button class="nc-play" aria-label="Play video">&#9658;</button>
-            <div class="nc-meta">
-              <strong>David Scutt, Market Analyst</strong>
-              <span>June 19, 2026 06:47 AM</span>
+      <div class="news-track reveal" id="newsTrack">
+       <div class="news-marquee" id="newsMarquee">
+        <article class="news-card">
+          <div class="nc-thumb"><img src="assets/news/spacex.jpg" alt="SpaceX rocket launch" loading="lazy" /></div>
+          <div class="nc-body">
+            <h3>Lorem ipsum dolor sit ame, consectetur adipisci elit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+            <div class="nc-tags">
+              <span class="nc-tag nc-author"><span class="nc-avatar"></span>David Scutt, Market Analyst</span>
+              <span class="nc-tag">June 19, 2026 06:47 AM</span>
             </div>
+            <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
           </div>
-          <h3>RBA Hawkish Hold: AUD/USD Risks 69 Cents as ASX 200 Eyes 9000</h3>
-          <p>RBA Hawkish Hold: AUD/USD Risks 69 Cents as ASX 200 Eyes 9000. RBA Hawkish Hold: AUD/USD Risks 69 Cents as ASX 200 Eyes 9000.</p>
-          <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
         </article>
 
-        <article class="news-card reveal">
-          <div class="nc-thumb nc-thumb-2">
-            <span class="nc-logo">FOREX<small>.com</small></span>
-            <button class="nc-play" aria-label="Play video">&#9658;</button>
-            <div class="nc-meta">
-              <strong>Razan Hilal, Market Analyst</strong>
-              <span>June 18, 2026 09:12 AM</span>
+        <article class="news-card">
+          <div class="nc-thumb"><img src="assets/news/nasdaq.jpg" alt="NASDAQ market data" loading="lazy" /></div>
+          <div class="nc-body">
+            <h3>Lorem ipsum dolor sit ame, consectetur adipisci elit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+            <div class="nc-tags">
+              <span class="nc-tag nc-author"><span class="nc-avatar"></span>David Scutt, Market Analyst</span>
+              <span class="nc-tag">June 19, 2026 06:47 AM</span>
             </div>
+            <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
           </div>
-          <h3>Gold Eyes Record High as USD Softens on Rate-Cut Bets</h3>
-          <p>Gold pushes toward fresh highs as the dollar eases. Traders eye the Fed's next move and shifting safe-haven flows.</p>
-          <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
         </article>
 
-        <article class="news-card reveal">
-          <div class="nc-thumb nc-thumb-3">
-            <span class="nc-logo">FOREX<small>.com</small></span>
-            <button class="nc-play" aria-label="Play video">&#9658;</button>
-            <div class="nc-meta">
-              <strong>Fawad Razaqzada, Market Analyst</strong>
-              <span>June 17, 2026 14:30 PM</span>
+        <article class="news-card">
+          <div class="nc-thumb"><img src="assets/news/ibd.jpg" alt="IBD stock lists update" loading="lazy" /></div>
+          <div class="nc-body">
+            <h3>Lorem ipsum dolor sit ame, consectetur adipisci elit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+            <div class="nc-tags">
+              <span class="nc-tag nc-author"><span class="nc-avatar"></span>David Scutt, Market Analyst</span>
+              <span class="nc-tag">June 19, 2026 06:47 AM</span>
             </div>
+            <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
           </div>
-          <h3>EUR/USD Coils Before ECB: Breakout or Fakeout?</h3>
-          <p>EUR/USD tightens into a range ahead of the ECB decision. We map the key levels that could define the next big move.</p>
-          <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
         </article>
 
-        <article class="news-card reveal">
-          <div class="nc-thumb nc-thumb-4">
-            <span class="nc-logo">FOREX<small>.com</small></span>
-            <button class="nc-play" aria-label="Play video">&#9658;</button>
-            <div class="nc-meta">
-              <strong>Matt Weller, Global Head of Research</strong>
-              <span>June 16, 2026 11:05 AM</span>
+        <article class="news-card">
+          <div class="nc-thumb"><img src="assets/news/uber.jpg" alt="Uber app on a phone" loading="lazy" /></div>
+          <div class="nc-body">
+            <h3>Lorem ipsum dolor sit ame, consectetur adipisci elit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+            <div class="nc-tags">
+              <span class="nc-tag nc-author"><span class="nc-avatar"></span>David Scutt, Market Analyst</span>
+              <span class="nc-tag">June 19, 2026 06:47 AM</span>
             </div>
+            <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
           </div>
-          <h3>S&amp;P 500 at All-Time Highs: How Far Can the Rally Run?</h3>
-          <p>Equities grind higher as breadth improves. We break down the technical and macro drivers behind the move.</p>
-          <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
         </article>
+
+        <article class="news-card">
+          <div class="nc-thumb"><img src="assets/news/amazon.jpg" alt="Amazon logo" loading="lazy" /></div>
+          <div class="nc-body">
+            <h3>Lorem ipsum dolor sit ame, consectetur adipisci elit</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+            <div class="nc-tags">
+              <span class="nc-tag nc-author"><span class="nc-avatar"></span>David Scutt, Market Analyst</span>
+              <span class="nc-tag">June 19, 2026 06:47 AM</span>
+            </div>
+            <a href="#" class="nc-readmore">Read more <span>&#8599;</span></a>
+          </div>
+        </article>
+       </div>
+      </div>
+
+      <div class="news-controls reveal">
+        <button class="news-arrow" id="newsPrev" aria-label="Previous">&larr;</button>
+        <button class="news-arrow" id="newsNext" aria-label="Next">&rarr;</button>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT US ============ -->
+    <section class="about" id="about">
+      <div class="about-copy">
+        <span class="about-eyebrow reveal">Who we are</span>
+        <h2 class="about-title reveal">Built for the<br>way you trade</h2>
+        <p class="about-lead reveal">For over a century we've helped people access the world's markets. Today more than a million traders rely on Forex.com for tight pricing, powerful tools and a platform that simply works.</p>
+
+        <div class="about-feats reveal">
+          <div class="af">
+            <span class="af-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 8h18M8 21h8"/></svg></span>
+            <div><strong>Award-winning platform</strong><small>Trade with confidence</small></div>
+          </div>
+          <div class="af">
+            <span class="af-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 12h4M12 12h8M4 17h12M19 17h1"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></svg></span>
+            <div><strong>Powerful tools</strong><small>Pro charts & insights</small></div>
+          </div>
+          <div class="af">
+            <span class="af-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+            <div><strong>Mobile trading</strong><small>Markets in your pocket</small></div>
+          </div>
+          <div class="af">
+            <span class="af-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <div><strong>Fast, secure funding</strong><small>Regulated &amp; protected</small></div>
+          </div>
+        </div>
+
+        <span class="about-hint" aria-hidden="true">Hover the stack to explore</span>
+      </div>
+
+      <div class="about-visual reveal">
+        <div class="stack">
+          <div class="stack-inner">
+            <article class="layer" style="--l:0" tabindex="0">
+              <span class="layer-title">Trading Platforms</span>
+              <span class="layer-info">Web, desktop and our award-winning mobile app — trade seamlessly across every device.</span>
+            </article>
+            <article class="layer" style="--l:1" tabindex="0">
+              <span class="layer-title">Global Markets</span>
+              <span class="layer-info">Forex, indices, shares, commodities and crypto — 4,500+ instruments in one account.</span>
+            </article>
+            <article class="layer" style="--l:2" tabindex="0">
+              <span class="layer-title">Tools &amp; Insights</span>
+              <span class="layer-info">Advanced charting, TradingView integration and real-time analyst research.</span>
+            </article>
+            <article class="layer" style="--l:3" tabindex="0">
+              <span class="layer-title">Education</span>
+              <span class="layer-info">Guides, webinars and daily market analysis to help sharpen your edge.</span>
+            </article>
+            <article class="layer" style="--l:4" tabindex="0">
+              <span class="layer-title">Security &amp; Trust</span>
+              <span class="layer-info">Regulated across major jurisdictions with segregated client funds.</span>
+            </article>
+          </div>
+        </div>
+        <div class="stack-info" id="stackInfo" aria-live="polite">
+          <strong class="si-title">Trading Platforms</strong>
+          <span class="si-text">Web, desktop and our award-winning mobile app — trade seamlessly across every device.</span>
+        </div>
       </div>
     </section>
 
@@ -374,30 +417,36 @@
           </div>
         </div>
         
-        <div class="am-steps-grid">
-          <!-- Step 1 -->
-          <div class="am-step-card">
-            <div class="am-card-bg"></div>
-            <div class="am-num-badge">1</div>
-            <h3 class="am-title">Register</h3>
-            <p class="am-desc">Register an account</p>
+        <div class="am-bold">
+          <div class="am-bold-glow" aria-hidden="true"></div>
+          <h2 class="amb-head reveal">Open an account</h2>
+
+          <div class="amb-row">
+            <div class="amb-item reveal">
+              <span class="amb-label">Register<sup>1</sup></span>
+              <div class="amb-tile">
+                <span class="amb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
+              </div>
+            </div>
+            <div class="amb-item reveal">
+              <span class="amb-label">Deposit<sup>2</sup></span>
+              <div class="amb-tile">
+                <span class="amb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><path d="M12 7v10M9.4 9.3a2.4 2.4 0 0 1 2.6-1.8c1.4 0 2.5.9 2.5 2s-1 1.7-2.7 2.2-2.8 1-2.8 2.2 1.1 2 2.6 2a2.5 2.5 0 0 0 2.6-1.8"/></svg></span>
+              </div>
+            </div>
+            <div class="amb-item reveal">
+              <span class="amb-label">Trade<sup>3</sup></span>
+              <div class="amb-tile">
+                <span class="amb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l4-5 3.4 4 3-7 3.6 8.5L21 9"/></svg></span>
+              </div>
+            </div>
           </div>
-          
-          <!-- Step 2 -->
-          <div class="am-step-card am-step-fund">
-            <div class="am-wallet-glow"></div>
-            <div class="am-card-bg"></div>
-            <div class="am-num-badge">2</div>
-            <h3 class="am-title">Deposit</h3>
-            <p class="am-desc">Verify/pay account</p>
-          </div>
-          
-          <!-- Step 3 -->
-          <div class="am-step-card">
-            <div class="am-card-bg"></div>
-            <div class="am-num-badge">3</div>
-            <h3 class="am-title">Start trading</h3>
-            <p class="am-desc">on 3,200+ CFD options</p>
+
+          <h2 class="amb-head reveal">and start trading.</h2>
+
+          <div class="amb-cta reveal">
+            <a href="#pricing" class="btn btn-glass-green">Open Account</a>
+            <a href="#" class="btn btn-outline-green">Log in instead</a>
           </div>
         </div>
 
